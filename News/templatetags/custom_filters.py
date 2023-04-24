@@ -4,9 +4,9 @@ from django import template
 register = template.Library()
 
 ERROR_WORDS = [
-    'pig',
-    'silly',
-    'foolish',
+    'Pig',
+    'Silly',
+    'Foolish',
 ]
 
 
