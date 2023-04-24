@@ -1,13 +1,38 @@
-<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
 {% extends 'flatpages/default.html' %}
 
-<!-- Название у нас будет -->
+{% load custom_filters %}
+
 {% block title %}
 Posts
 {% endblock title %}
 
-<!-- В контенте на странице мы выводим все новости и статьи -->
 {% block content %}
-<h1>All news, which we have today:</h1>
-{{ posts }}
+   <h1>All news, which we have today:</h1>
+     {{ posts|length }}
+   <!-- Используем переданную из представления переменную time_now
+   и применяем к ней фильтр date. По назначению этот фильтр очень похож
+   на метод strftime у объекта datetime в Python — вывод времени
+   в указанном формате. -->
+   <h3>{{ time_in|date:'M d Y' }}</h3>
+   <hr>
+   {% if posts %}
+       <table>
+           <tr>
+               <td>Title</td>
+               <td>Publication date</td>
+               <td>Content</td>
+           </tr>
+
+           {% for post in posts %}
+           <tr>
+               <td>{{ post.title|censor }}</td>
+               <td>{{ post.time_in|date:'d M Y' }}</td>
+               <td>{{ post.text_post|censor|truncatewords:20 }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>We don't have news, sorry!</h2>
+   {% endif %}
 {% endblock content %}
