@@ -9,10 +9,7 @@ Posts
 {% block content %}
    <h1>All news, which we have today:</h1>
      {{ posts|length }}
-   <!-- Используем переданную из представления переменную time_now
-   и применяем к ней фильтр date. По назначению этот фильтр очень похож
-   на метод strftime у объекта datetime в Python — вывод времени
-   в указанном формате. -->
+
    <h3>{{ time_in|date:'M d Y' }}</h3>
    <hr>
    {% if posts %}
@@ -35,4 +32,25 @@ Posts
    {% else %}
        <h2>We don't have news, sorry!</h2>
    {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {# Информация о текущей странице #}
+    {{ page_obj.number }}
+
+    {# Информация о следующих страницах #}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
 {% endblock content %}
