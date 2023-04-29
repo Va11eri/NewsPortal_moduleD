@@ -2,6 +2,8 @@
 
 {% load custom_filters %}
 
+
+
 {% block title %}
     News search
 {% endblock title %}
@@ -9,9 +11,9 @@
 {% block content %}
 <h1>News search</h1>
     {{ post|length }}
-    <form method="GET">
-        {{ filter.form }}
-        <input type="submit" value="Найти">
+    <form action="" method="GET">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Find">
     </form>
     {% if posts %}
         <table>
@@ -25,12 +27,33 @@
             {% for new in filter.qs %}
             <tr>
                 <td>{{ new.title|censor }}</td>
-                <td>{{ new.time_in|date:'d M Y' }}</td>
+                <td>{{ new.time_in }}</td>
                 <td>{{ new.text_post|censor|truncatewords:20 }}</td>
             </tr>
             {% endfor %}
         </table>
     {% else %}
-        <h2>WE don't have any news today!</h2>
+       <h2>We don't have news, sorry!</h2>
     {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {# Информация о текущей странице #}
+    {{ page_obj.number }}
+
+    {# Информация о следующих страницах #}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
 {% endblock content %}

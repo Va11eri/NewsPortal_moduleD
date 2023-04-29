@@ -1,6 +1,8 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, PostCategory
 from .filters import PostFilter
+from .forms import PostForm
+from django.urls import reverse_lazy
 
 
 class Postlist(ListView):
@@ -16,9 +18,10 @@ class Postlist(ListView):
         context['categories'] = PostCategory.objects.all()
         return context
 
+
 class SearchPostList(ListView):
     model = Post
-    ordering = '-time_in'
+    filterset_class = PostFilter
     template_name = 'search.html'
     context_object_name = 'news'
     paginate_by = 10
@@ -42,3 +45,32 @@ class PostDetail(DetailView):
     template_name = 'post.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'post'
+
+
+class PostCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'post_add.html'
+
+
+class ArticleCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'article_create.html'
+
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.type = 'AR'
+        return super().form_valid(form)
+
+class PostUpdate(UpdateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'post_edit.html'
+
+
+class PostDelete(DeleteView):
+    model = Post
+    template_name = 'post_delete.html'
+    success_url = reverse_lazy('post_list')
