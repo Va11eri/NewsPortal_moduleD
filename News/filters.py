@@ -1,11 +1,12 @@
-from django_filters import FilterSet, DateFilter
-from .models import Post
-from django import forms
+from django_filters import FilterSet, DateFilter, ModelChoiceFilter
+from .models import Post, Category, Author
+from .forms import *
 
 
 class PostFilter(FilterSet):
     date = DateFilter(field_name='time_in', lookup_expr='gt',  widget=forms.DateInput(attrs={'type': 'date'}), label='Publication date')
-                     # label='Search by date starting from', lookup_expr='date__gte')
+    name = ModelChoiceFilter(field_name='category', queryset=Category.objects.all(), label='Post Category')
+    author = ModelChoiceFilter(field_name='author', queryset=Author.objects.all(), label='Author')
     class Meta:
        # В Meta классе мы должны указать Django модель,
        # в которой будем фильтровать записи.
