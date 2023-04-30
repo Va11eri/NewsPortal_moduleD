@@ -26,7 +26,8 @@ Posts
                <td>{{ post.title|censor }}</td>
                <td>{{ post.time_in|date:'d M Y' }}</td>
                <td>{{ post.text_post|censor|truncatewords:20 }}</td>
-               <td>{{ post.type }}</td>
+               <td>{{ post.get_type_display }}</td>
+               <td>{{ connection_categ }}</td>
            </tr>
            {% endfor %}
 

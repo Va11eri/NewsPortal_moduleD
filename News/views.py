@@ -52,17 +52,13 @@ class PostCreate(CreateView):
     model = Post
     template_name = 'post_add.html'
 
-
-class ArticleCreate(CreateView):
-    form_class = PostForm
-    model = Post
-    template_name = 'article_create.html'
-
-
     def form_valid(self, form):
         post = form.save(commit=False)
-        post.type = 'AR'
+        if self.request.path == '/news/article/create/':
+            post.type = 'AR'
+        post.save()
         return super().form_valid(form)
+
 
 class PostUpdate(UpdateView):
     form_class = PostForm

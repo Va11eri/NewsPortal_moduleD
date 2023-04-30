@@ -15,7 +15,7 @@
         {{ filterset.form.as_p }}
         <input type="submit" value="Find">
     </form>
-    {% if posts %}
+    {% if news %}
         <table>
             <thead>
                 <tr>
@@ -24,7 +24,7 @@
                     <th>Content</th>
                 </tr>
             </thead>
-            {% for new in filter.qs %}
+            {% for new in news %}
             <tr>
                 <td>{{ new.title|censor }}</td>
                 <td>{{ new.time_in }}</td>

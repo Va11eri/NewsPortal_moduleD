@@ -4,7 +4,7 @@ from django import forms
 
 
 class PostFilter(FilterSet):
-    date = DateFilter(field_name='time_in', widget=forms.DateInput(attrs={'type': 'date'}))
+    date = DateFilter(field_name='time_in', lookup_expr='gt',  widget=forms.DateInput(attrs={'type': 'date'}), label='Publication date')
                      # label='Search by date starting from', lookup_expr='date__gte')
     class Meta:
        # В Meta классе мы должны указать Django модель,
@@ -12,4 +12,4 @@ class PostFilter(FilterSet):
         model = Post
        # В fields мы описываем по каким полям модели
        # будет производиться фильтрация.
-        fields = {'title': ['icontains'], 'time_in': ['gt'],'author': ['exact'],}
+        fields = {'title': ['icontains'],'author': ['exact'],}
