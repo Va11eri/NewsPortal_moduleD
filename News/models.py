@@ -8,6 +8,11 @@ class Author(models.Model):
     users = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     rating = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.users.username
+
+
+
     def update_rating(self):
         articles_rate = Post.objects.filter(author_id=self.pk).aggregate(sum_articles=Coalesce(Sum('rating_post') * 3, 0))['sum_articles']
         comments_rate = Comment.objects.filter(user_comment_id=self.users).aggregate(sum_articles=Coalesce(Sum('rating_comment'), 0))['sum_articles']
@@ -35,6 +40,9 @@ TOPIC = [
 
 class Category(models.Model):
     name = models.CharField(max_length=2, unique=True, choices=TOPIC, default=weather)
+
+    def __str__(self):
+        return self.name
 
 
 article = 'AR'

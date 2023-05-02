@@ -19,6 +19,7 @@ Posts
                <td>Publication date</td>
                <td>Content</td>
                <td>Type</td>
+               <td>Category</td>
            </tr>
 
            {% for post in posts %}
@@ -27,7 +28,11 @@ Posts
                <td>{{ post.time_in|date:'d M Y' }}</td>
                <td>{{ post.text_post|censor|truncatewords:20 }}</td>
                <td>{{ post.get_type_display }}</td>
-               <td>{{ connection_categ }}</td>
+               <td>
+                   {% for category in post.connection_categ.all %}
+                   {{ category }}
+                   {% endfor %}
+               </td>
            </tr>
            {% endfor %}
 
