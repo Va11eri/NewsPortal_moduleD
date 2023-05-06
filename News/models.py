@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.urls import reverse
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+
 
 class Author(models.Model):
     users = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
@@ -10,8 +13,6 @@ class Author(models.Model):
 
     def __str__(self):
         return self.users.username
-
-
 
     def update_rating(self):
         articles_rate = Post.objects.filter(author_id=self.pk).aggregate(sum_articles=Coalesce(Sum('rating_post') * 3, 0))['sum_articles']
@@ -100,3 +101,17 @@ class Comment(models.Model):
         self.rating_comment -= 1
         self.save()
 
+
+class BaseRegisterForm(UserCreationForm):
+    email = forms.EmailField(label="Email")
+    first_name = forms.CharField(label="First Name")
+    last_name = forms.CharField(label="Last Name")
+
+    class Meta:
+        model = User
+        fields = ("username",
+                  "first_name",
+                  "last_name",
+                  "email",
+                  "password1",
+                  "password2", )

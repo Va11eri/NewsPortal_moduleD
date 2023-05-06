@@ -1,8 +1,40 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, PostCategory
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from .models import Post, PostCategory, Category
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import User, Group
+from .models import BaseRegisterForm
+from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+
+
+@login_required()
+def upgrade_me(request):
+    user = request.user
+    authors_group = Group.objects.get(name='authors')
+    if not request.user.groups.filter(name='authors').exists():
+        authors_group.user_set.add(user)
+    return redirect('/news/')
+
+
+class AddPost(PermissionRequiredMixin, CreateView):
+    permission_required = ('News.add_post', )
+
+
+@login_required
+def news_edit(request, post_id):
+    news = get_object_or_404(Post, id=post_id)
+
+    try:
+        category_id = news.category.id
+        category = Category.objects.get(id=category_id)
+    except Category.DoesNotExist:
+        category = None
+
+    return render(request, 'post_edit.html', {'post': news, 'category': category})
 
 
 class Postlist(ListView):
@@ -60,13 +92,33 @@ class PostCreate(CreateView):
         return super().form_valid(form)
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = ('News.update.post')
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('pk')
+        return Post.objects.get(pk=id)
 
 
 class PostDelete(DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
+
+
+class BaseRegisterView(CreateView):
+    model = User
+    form_class = BaseRegisterForm
+    success_url = '/'
+
+
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'protect/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context

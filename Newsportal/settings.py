@@ -27,6 +27,11 @@ SECRET_KEY = 'django-insecure-p2tr)g+1g)7q_7_e87r8x2*)(g$x0-ivg^7)$8gs9ml%*w#$ey
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 
 # Application definition
@@ -41,7 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'News',
+    'sign',
+    'protect',
     'django_filters',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 SITE_ID = 1
@@ -76,7 +87,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Newsportal.wsgi.application'
+LOGIN_REDIRECT_URL = '/news/'
+LOGIN_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/news/'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+ACCOUNT_FORMS = {'signup': 'News.forms.BasicSignupForm'}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
