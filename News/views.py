@@ -8,7 +8,6 @@ from django.contrib.auth.models import User, Group
 from .models import BaseRegisterForm
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import CreateView
 
 
 @login_required()
@@ -18,10 +17,6 @@ def upgrade_me(request):
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
     return redirect('/news/')
-
-
-class AddPost(PermissionRequiredMixin, CreateView):
-    permission_required = ('News.change_post', )
 
 
 @login_required
@@ -79,7 +74,8 @@ class PostDetail(DetailView):
     context_object_name = 'post'
 
 
-class PostCreate(CreateView):
+class PostCreate(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+    permission_required = ('News.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_add.html'
@@ -93,7 +89,7 @@ class PostCreate(CreateView):
 
 
 class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    permission_required = ('News.update.post')
+    permission_required = ('News.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
