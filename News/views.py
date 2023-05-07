@@ -21,7 +21,7 @@ def upgrade_me(request):
 
 
 class AddPost(PermissionRequiredMixin, CreateView):
-    permission_required = ('News.add_post', )
+    permission_required = ('News.change_post', )
 
 
 @login_required
