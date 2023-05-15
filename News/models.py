@@ -41,6 +41,7 @@ TOPIC = [
 
 class Category(models.Model):
     name = models.CharField(max_length=2, unique=True, choices=TOPIC, default=weather)
+    subscribers = models.ManyToManyField(User, blank=True, null=True, related_name='categories')
 
     def __str__(self):
         return self.name

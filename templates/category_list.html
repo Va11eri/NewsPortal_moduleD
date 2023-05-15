@@ -7,12 +7,18 @@ Posts
 {% endblock title %}
 
 {% block content %}
+
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'subscribe' category.id%}" class="'btn btn-secondary btn-sm">Subscribe</a></p>
+    {% else %}
+        <p class="text-center"><a href="{% url 'unsubscribe' category.id %}" class="btn btn-secondary btn-sm">Unsubscribe</a></p>
+        {% endif %}
    <h1>All news, which we have today:</h1>
      {{ posts|length }}
 
    <h3>{{ time_in|date:'M d Y' }}</h3>
    <hr>
-   {% if posts %}
+   {% if category_news_list %}
        <table>
            <tr>
                <td>Title</td>
@@ -22,7 +28,7 @@ Posts
                <td>Category</td>
            </tr>
 
-           {% for post in posts %}
+           {% for post in category_news_list %}
            <tr>
                <td>{{ post.title|censor }}</td>
                <td>{{ post.time_in|date:'d M Y' }}</td>
@@ -30,7 +36,7 @@ Posts
                <td>{{ post.get_type_display }}</td>
                <td>
                    {% for category in post.connection_categ.all %}
-                        <a href="{% url 'category_list' category.id %}"> {{ category }}</a>
+                   <a href="{% url 'category_list' category.id %}">{{ post.connection_categ }} </a>
                    {% endfor %}
                </td>
            </tr>

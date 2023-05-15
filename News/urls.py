@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Postlist, PostDetail, SearchPostList, PostCreate, PostUpdate, PostDelete, BaseRegisterView
+from .views import Postlist, PostDetail, SearchPostList, PostCreate, PostUpdate, PostDelete, BaseRegisterView, CategoryListView, subscribe, unsubscribe
 from django.contrib.auth.views import LoginView, LogoutView
 from .views import IndexView
 from .views import upgrade_me
@@ -19,4 +19,7 @@ urlpatterns = [
    path('logout/', LogoutView.as_view(template_name='sign/logout.html'), name='logout'),
    path('signup/', BaseRegisterView.as_view(template_name='sign/signup.html'), name='signup'),
    path('upgrade/', upgrade_me, name='upgrade'),
+   path('category/<int:pk>/', CategoryListView.as_view(), name='category_list'),
+   path('category/<int:pk>/subscribe/', subscribe, name='subscribe'),
+   path('category/<int:pk>/unsubscribe/', unsubscribe, name='unsubscribe'),
 ]
