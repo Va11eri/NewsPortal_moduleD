@@ -4,7 +4,8 @@ from django.dispatch import receiver
 from django.template.loader import render_to_string
 from .models import PostCategory
 from django.conf import settings
-
+from django.core.mail import send_mail
+import logging
 
 def send_notifications(preview, pk, title, subscribers):
     html_content = render_to_string(
@@ -31,9 +32,17 @@ def notify_about_new_post(sender, instance, **kwargs):
     if kwargs['action'] == 'post_add':
         categories = instance.connection_categ.all()
         subscribers_emails = []
+        print(categories)
 
         for cat in categories:
             subscribers = cat.subscribers.all()
             subscribers_emails += [s.email for s in subscribers]
 
         send_notifications(instance.preview(), instance.pk, instance.title, subscribers_emails)
+
+
+def send_welcome_email(sender, request, user, **kwargs):
+    subject = 'Welcome to Newsportal! Have a wonderful day'
+    message = render_to_string('welcome_email.html', {'user': user})
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
+    logging.info("send_welcome_email function called.")

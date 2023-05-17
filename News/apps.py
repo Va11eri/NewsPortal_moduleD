@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.conf import settings
 
 
 class NewsConfig(AppConfig):
@@ -7,3 +8,4 @@ class NewsConfig(AppConfig):
 
     def ready(self):
         import News.signals
+
