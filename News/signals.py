@@ -46,7 +46,7 @@ def notify_about_new_post(sender, instance, **kwargs):
 def send_welcome_email(sender, instance, created, **kwargs):
     if created:
         subject = 'Welcome to Newsportal! Have a wonderful day'
-        message = render_to_string('welcome_email.html', {'user': instance})
+        message = f"Welcome, {instance.username}!\n\nThank you for joining Newsportal. We're excited to have you as part of our community."
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [instance.email])
 
 

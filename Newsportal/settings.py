@@ -163,4 +163,9 @@ DEFAULT_FROM_EMAIL = 'mynewsportal@mail.ru'
 SITE_URL = 'http://127.0.0.1:8000'
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
+CELERY_BROKER_URL = 'redis://default:0swxrSPYAeYLQQMhl6oohAo4OjNq7z0n@redis-18655.c245.us-east-1-3.ec2.cloud.redislabs.com:18655'
+CELERY_RESULT_BACKEND = 'redis://default:0swxrSPYAeYLQQMhl6oohAo4OjNq7z0n@redis-18655.c245.us-east-1-3.ec2.cloud.redislabs.com:18655'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
