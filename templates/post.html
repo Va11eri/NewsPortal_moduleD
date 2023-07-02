@@ -1,7 +1,9 @@
 {% extends 'flatpages/default.html' %}
 
 {% load custom_filters %}
+{% load cache %}
 
+{% cache 300 article %}
 {% block title %}
 Post
 {% endblock title %}

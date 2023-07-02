@@ -7,6 +7,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
+from .tasks import send_email_task
+
 
 
 def send_notifications(preview, pk, title, subscribers):
@@ -40,7 +42,9 @@ def notify_about_new_post(sender, instance, **kwargs):
             subscribers = cat.subscribers.all()
             subscribers_emails += [s.email for s in subscribers]
 
-        send_notifications(instance.preview(), instance.pk, instance.title, subscribers_emails)
+        #send_notifications(instance.preview(), instance.pk, instance.title, subscribers_emails)
+        send_email_task.delay(instance.pk)  # Call the task asynchronously
+
 
 
 def send_welcome_email(sender, instance, created, **kwargs):
