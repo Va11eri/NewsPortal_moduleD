@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.core.cache import cache
+from django.utils.translation import gettext as _
+from django.utils.translation import pgettext_lazy
 
 
 class Author(models.Model):
@@ -41,7 +43,7 @@ TOPIC = [
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=2, unique=True, choices=TOPIC, default=weather)
+    name = models.CharField(max_length=2, unique=True, choices=TOPIC, default=weather, help_text=_('category name'))
     subscribers = models.ManyToManyField(User, blank=True, related_name='categories')
 
     def __str__(self):
@@ -62,7 +64,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     text_post = models.TextField()
     rating_post = models.IntegerField(default=0)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name=_('Author name'))
     connection_categ = models.ManyToManyField(Category, through='PostCategory')
 
     def like(self):
@@ -83,8 +85,8 @@ class Post(models.Model):
         return reverse('post_detail', args=[str(self.pk)])
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
-        cache.delete(f'product-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
+        super().save(*args, **kwargs)
+        cache.delete(f'product-{self.pk}')
 
 
 class PostCategory(models.Model):
@@ -121,3 +123,13 @@ class BaseRegisterForm(UserCreationForm):
                   "email",
                   "password1",
                   "password2", )
+
+
+class MyModel(models.Model):
+    name = models.CharField(max_length=100)
+    kind = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name='kinds',
+        verbose_name=pgettext_lazy('help text for MyModel model', 'This is the help text'),
+)

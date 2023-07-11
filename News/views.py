@@ -1,4 +1,5 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from django.http import HttpResponse
+from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import Post, PostCategory, Category
 from .filters import PostFilter
 from .forms import PostForm
@@ -9,6 +10,16 @@ from .models import BaseRegisterForm
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
+from django.utils.translation import gettext as _
+from django.shortcuts import redirect
+
+
+
+class Index(View):
+    def get(self, request):
+        string = _('Hello world')
+
+        return HttpResponse(string)
 
 
 @login_required()
@@ -165,6 +176,10 @@ class CategoryListView(Postlist):
         context['is_not_subscriber'] = self.request.user not in self.category.subscribers.all()
         context['category'] = self.category
         return context
+
+    def set_language(request, lang_code):
+        request.session['django_language'] = lang_code
+        return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 

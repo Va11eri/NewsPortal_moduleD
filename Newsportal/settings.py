@@ -62,8 +62,10 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
+    'modeltranslation',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -73,6 +75,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Newsportal.urls'
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 TEMPLATES = [
     {
@@ -137,6 +143,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('en', 'English'),
+    ('ru', 'Русский'),
+]
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -165,8 +176,8 @@ DEFAULT_FROM_EMAIL = 'mynewsportal@mail.ru'
 SITE_URL = 'http://127.0.0.1:8000'
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
-CELERY_BROKER_URL = 'redis://default:0swxrSPYAeYLQQMhl6oohAo4OjNq7z0n@redis-18655.c245.us-east-1-3.ec2.cloud.redislabs.com:18655'
-CELERY_RESULT_BACKEND = 'redis://default:0swxrSPYAeYLQQMhl6oohAo4OjNq7z0n@redis-18655.c245.us-east-1-3.ec2.cloud.redislabs.com:18655'
+CELERY_BROKER_URL = 'redis://:CSvycAbSZfX2gQGuqMaAs2W7gflznEPu@redis-10627.c90.us-east-1-3.ec2.cloud.redislabs.com:10627'
+CELERY_RESULT_BACKEND = 'redis://:CSvycAbSZfX2gQGuqMaAs2W7gflznEPu@redis-10627.c90.us-east-1-3.ec2.cloud.redislabs.com:10627'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

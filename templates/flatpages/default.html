@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load i18n %}
+
+<html lang="{% get_current_language as current_language %}">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -13,6 +15,12 @@
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <body>
+        <!-- Language switcher -->
+        <div class="language-switcher">
+            <a class="language-link" href="{% url 'set_language' %}?language=en">EN</a>
+            <a class="language-link" href="{% url 'set_language' %}?language=ru">RU</a>
+        </div>
+
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
             <div class="container">
@@ -37,6 +45,7 @@
                 </div>
             </div>
         </nav>
+
         <!-- Page content-->
         <div class="container">
             <div class="row">

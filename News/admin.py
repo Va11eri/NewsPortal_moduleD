@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Category, Post, Author
+from .models import Category, Post, Author, MyModel
+from modeltranslation.admin import TranslationAdmin
+from modeltranslation.translator import translator, TranslationOptions
 
 
 def reset_news_count(modeladmin, request, queryset):
@@ -8,7 +10,7 @@ def reset_news_count(modeladmin, request, queryset):
 reset_news_count.short_description = 'Reset the number of news'
 
 
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     list_display = ('name', 'get_news_count')
     actions = [reset_news_count]
 
@@ -37,6 +39,11 @@ class AuthorAdmin(admin.ModelAdmin):
     get_news_count.short_description = 'News quantity'
 
 
+class MyModelAdmin(TranslationAdmin):
+    model = MyModel
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Author, AuthorAdmin)
+admin.site.register(MyModel, MyModelAdmin)
