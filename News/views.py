@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from .models import Post, PostCategory, Category
+from .models import Post, PostCategory, Category, MyModel
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
@@ -17,9 +17,13 @@ from django.shortcuts import redirect
 
 class Index(View):
     def get(self, request):
-        string = _('Hello world')
+        models = MyModel.objects.all()
 
-        return HttpResponse(string)
+        context = {
+            'models': models,
+        }
+
+        return HttpResponse(render(request, 'index.html', context))
 
 
 @login_required()

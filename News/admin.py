@@ -4,22 +4,7 @@ from modeltranslation.admin import TranslationAdmin
 from modeltranslation.translator import translator, TranslationOptions
 
 
-def reset_news_count(modeladmin, request, queryset):
-    queryset.update(news_count=0)
-
-reset_news_count.short_description = 'Reset the number of news'
-
-
-class CategoryAdmin(TranslationAdmin):
-    list_display = ('name', 'get_news_count')
-    actions = [reset_news_count]
-
-    def get_news_count(self, obj):
-        return obj.news_count
-
-    get_news_count.short_description = 'News quantity'
-
-
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'get_category')
     list_filter = ('connection_categ',)
@@ -39,11 +24,27 @@ class AuthorAdmin(admin.ModelAdmin):
     get_news_count.short_description = 'News quantity'
 
 
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
 class MyModelAdmin(TranslationAdmin):
     model = MyModel
 
 
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Post, PostAdmin)
+class CategoryTranslationOptions(TranslationOptions):
+    fields = ('name',)
+
+
+class PostTranslationOptions(TranslationOptions):
+    fields = ('title',)
+
+
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(MyModel, MyModelAdmin)
+
+# Удалите следующую строку, так как модель уже зарегистрирована внутри класса TranslationAdmin
+# translator.register(Category, CategoryTranslationOptions)
+
+translator.register(Post, PostTranslationOptions)

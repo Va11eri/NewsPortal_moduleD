@@ -148,6 +148,8 @@ LANGUAGES = [
     ('ru', 'Русский'),
 ]
 
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True

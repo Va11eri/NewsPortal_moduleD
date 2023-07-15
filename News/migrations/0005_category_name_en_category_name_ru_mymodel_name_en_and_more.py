@@ -13,12 +13,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='name_en',
-            field=models.CharField(choices=[('SP', 'Sport news'), ('WT', 'Weather news'), ('PL', 'Politics news'), ('ED', 'Education news'), ('EC', 'Economics news'), ('FS', 'Fashion news')], default='WT', help_text='category name', max_length=2, null=True, unique=True),
+            field=models.CharField(choices=[('SP', 'Sport news'), ('WT', 'Weather news'), ('PL', 'Politics news'), ('ED', 'Education news'), ('EC', 'Economics news'), ('FS', 'Fashion news')], default='WT', help_text='category name', max_length=2, null=True),
         ),
         migrations.AddField(
             model_name='category',
             name='name_ru',
-            field=models.CharField(choices=[('SP', 'Sport news'), ('WT', 'Weather news'), ('PL', 'Politics news'), ('ED', 'Education news'), ('EC', 'Economics news'), ('FS', 'Fashion news')], default='WT', help_text='category name', max_length=2, null=True, unique=True),
+            field=models.CharField(choices=[('SP', 'Sport news'), ('WT', 'Weather news'), ('PL', 'Politics news'), ('ED', 'Education news'), ('EC', 'Economics news'), ('FS', 'Fashion news')], default='WT', help_text='category name', max_length=2, null=True),
         ),
         migrations.AddField(
             model_name='mymodel',

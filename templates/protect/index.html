@@ -8,14 +8,14 @@
 <body>
 {% block content %}
 {% if is_not_author %}
-<button> <a href="{% url 'upgrade' %}"> I would like to be an author!</a> </button>
+<button><a href="{% url 'upgrade' %}">{% trans "I would like to be an author!" %}</a></button>
 {% else %}
-<h1>You are already an author</h1>
+<h1>{% trans "You are already an author" %}</h1>
 {% endif %}
-<h2>Authorized user page {{request.users.username}}</h2>
-<div> There may be personal information for each user </div>
+<h2>{% trans "Authorized user page" %} {{ request.user.username }}</h2>
+<div>{% trans "There may be personal information for each user" %}</div>
 
-<button> <a href="news/logout/">Log out</a> </button>
+<button><a href="news/logout/">{% trans "Log out" %}</a></button>
 {% endblock %}
 </body>
 </html>
