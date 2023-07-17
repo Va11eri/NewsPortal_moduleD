@@ -1,60 +1,78 @@
-<!DOCTYPE html>
 {% load i18n %}
+{% load tz %}
 
 <html lang="{% get_current_language as current_language %}">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Bare - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <!--<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
-        <!-- Core theme CSS (includes Bootstrap)-->
-        {% load static %}
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Language switcher -->
-        <div class="language-switcher">
-            <a class="language-link" href="{% url 'set_language' %}?language=en">EN</a>
-            <a class="language-link" href="{% url 'set_language' %}?language=ru">RU</a>
-        </div>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Bare - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <!--<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <style>
+        body {background-color: {% if current_time.hour >= 19 or current_time.hour <= 7 %} darkcyan {% else %} powderblue {% endif %};}
+    </style>
+</head>
+<body>
+    <!-- Language switcher -->
+    <form action="{% url 'set_language' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ redirect_to }}">
+        <select name="language" id="">
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            {% for language in languages %}
+                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }} - {{ language.code }}
+                </option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="set">
+    </form>
 
-        <!-- Responsive navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-            <div class="container">
-                <a class="navbar-brand" href="#">News Paper</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarResponsive"
-                        aria-controls="navbarResponsive" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/news/">News</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <!-- Current date and time -->
+    {% get_current_timezone as TIME_ZONE %}
+    <p>Time zone: {{ TIME_ZONE }}</p>
+    <p>Current time: {{ current_time|timezone:TIME_ZONE }}</p>
 
-        <!-- Page content-->
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    {% block content %}
-                    {{ flatpage.content }}
-                    {% endblock content %}
-                </div>
+            <a class="navbar-brand" href="#">News Paper</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/news/">News</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </body>
+    </nav>
+
+    <!-- Page content-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                {% block content %}
+                {{ flatpage.content }}
+                {% endblock content %}
+            </div>
+        </div>
+    </div>
+</body>
 </html>

@@ -12,18 +12,29 @@ from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.utils.translation import gettext as _
 from django.shortcuts import redirect
-
+from django.utils import timezone
+import pytz
 
 
 class Index(View):
+
     def get(self, request):
+
+        curent_time = timezone.now()
+
         models = MyModel.objects.all()
 
         context = {
-            'models': models,
+            'current_time': timezone.now(),
+            'timezones': pytz.common_timezones,
+            'models': models
         }
 
         return HttpResponse(render(request, 'index.html', context))
+
+    def post(self, request):
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('/')
 
 
 @login_required()
