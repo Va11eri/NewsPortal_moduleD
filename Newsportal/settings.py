@@ -192,98 +192,98 @@ CACHES = {
 }
 
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-            "filters": ["console_only"],
-        },
-        "general_file": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": "logs/general.log",
-            "maxBytes": 1048576,  # 1MB
-            "backupCount": 10,
-            "formatter": "simple",
-            "filters": ["email_file_only"],
-        },
-        "errors_file": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": "logs/errors.log",
-            "maxBytes": 1048576,  # 1MB
-            "backupCount": 10,
-            "formatter": "verbose",
-            "filters": ["email_file_only"],
-        },
-        "security_file": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": "logs/security.log",
-            "maxBytes": 1048576,  # 1MB
-            "backupCount": 10,
-            "formatter": "verbose",
-            "filters": ["email_file_only"],
-        },
-        "mail_admins": {
-            "class": "django.utils.log.AdminEmailHandler",
-            "include_html": True,
-            "filters": ["email_file_only"],
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console", "general_file"],
-            "level": "DEBUG",
-            "propagate": True,
-        },
-        "django.request": {
-            "handlers": ["errors_file", "mail_admins"],
-            "level": "ERROR",
-            "propagate": False,
-        },
-        "django.server": {
-            "handlers": ["errors_file", "mail_admins"],
-            "level": "ERROR",
-            "propagate": False,
-        },
-        "django.template": {
-            "handlers": ["errors_file"],
-            "level": "ERROR",
-            "propagate": False,
-        },
-        "django.db.backends": {
-            "handlers": ["errors_file"],
-            "level": "ERROR",
-            "propagate": False,
-        },
-        "django.security": {
-            "handlers": ["security_file"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "DEBUG",
-    },
-    "filters": {
-        "console_only": {
-            "()": "django.utils.log.CallbackFilter",
-            "callback": lambda record: settings.DEBUG,
-        },
-        "email_file_only": {
-            "()": "django.utils.log.CallbackFilter",
-            "callback": lambda record: not settings.DEBUG,
-        },
-    },
-    "formatters": {
-        "verbose": {
-            "format": "%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-        },
-        "simple": {
-            "format": "%(asctime)s %(levelname)s [%(module)s] %(message)s",
-        },
-    },
-}
+#LOGGING = {
+   # "version": 1,
+#  "disable_existing_loggers": False,
+#   "handlers": {
+#       "console": {
+#           "class": "logging.StreamHandler",
+#           "formatter": "verbose",
+#           "filters": ["console_only"],
+#       },
+#       "general_file": {
+#           "class": "logging.handlers.RotatingFileHandler",
+#           "filename": "logs/general.log",
+#           "maxBytes": 1048576,  # 1MB
+#           "backupCount": 10,
+#           "formatter": "simple",
+#           "filters": ["email_file_only"],
+#       },
+#       "errors_file": {
+#           "class": "logging.handlers.RotatingFileHandler",
+#           "filename": "logs/errors.log",
+#           "maxBytes": 1048576,  # 1MB
+#           "backupCount": 10,
+#           "formatter": "verbose",
+#           "filters": ["email_file_only"],
+#       },
+#       "security_file": {
+#           "class": "logging.handlers.RotatingFileHandler",
+#           "filename": "logs/security.log",
+#           "maxBytes": 1048576,  # 1MB
+#           "backupCount": 10,
+#           "formatter": "verbose",
+#           "filters": ["email_file_only"],
+#       },
+#       "mail_admins": {
+#           "class": "django.utils.log.AdminEmailHandler",
+#           "include_html": True,
+#           "filters": ["email_file_only"],
+#       },
+#   },
+#   "loggers": {
+#       "django": {
+#           "handlers": ["console", "general_file"],
+#           "level": "DEBUG",
+#           "propagate": True,
+#       },
+#       "django.request": {
+#           "handlers": ["errors_file", "mail_admins"],
+#           "level": "ERROR",
+#           "propagate": False,
+#       },
+#       "django.server": {
+#           "handlers": ["errors_file", "mail_admins"],
+#           "level": "ERROR",
+#           "propagate": False,
+#       },
+#       "django.template": {
+#           "handlers": ["errors_file"],
+#           "level": "ERROR",
+#           "propagate": False,
+#       },
+#       "django.db.backends": {
+#           "handlers": ["errors_file"],
+#           "level": "ERROR",
+#           "propagate": False,
+#       },
+#       "django.security": {
+#           "handlers": ["security_file"],
+#           "level": "DEBUG",
+#           "propagate": False,
+#       },
+#   },
+#   "root": {
+#       "handlers": ["console"],
+#       "level": "DEBUG",
+#   },
+#   "filters": {
+#       "console_only": {
+#           "()": "django.utils.log.CallbackFilter",
+#           "callback": lambda record: settings.DEBUG,
+#       },
+#       "email_file_only": {
+#           "()": "django.utils.log.CallbackFilter",
+#           "callback": lambda record: not settings.DEBUG,
+#       },
+#   },
+#   "formatters": {
+#       "verbose": {
+#           "format": "%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+#       },
+#       "simple": {
+#           "format": "%(asctime)s %(levelname)s [%(module)s] %(message)s",
+#       },
+#   },
+#}
 

@@ -4,7 +4,6 @@ from modeltranslation.admin import TranslationAdmin
 from modeltranslation.translator import translator, TranslationOptions
 
 
-@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'get_category')
     list_filter = ('connection_categ',)
@@ -24,7 +23,6 @@ class AuthorAdmin(admin.ModelAdmin):
     get_news_count.short_description = 'News quantity'
 
 
-@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
@@ -33,18 +31,15 @@ class MyModelAdmin(TranslationAdmin):
     model = MyModel
 
 
-class CategoryTranslationOptions(TranslationOptions):
-    fields = ('name',)
+class CategoryTranslation(CategoryAdmin, TranslationAdmin):
+    model = Category
 
 
-class PostTranslationOptions(TranslationOptions):
-    fields = ('title',)
+class PostTranslation(PostAdmin, TranslationAdmin):
+    model = Post
 
 
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(MyModel, MyModelAdmin)
-
-# Удалите следующую строку, так как модель уже зарегистрирована внутри класса TranslationAdmin
-# translator.register(Category, CategoryTranslationOptions)
-
-translator.register(Post, PostTranslationOptions)
+admin.site.register(Post, PostTranslation)
+admin.site.register(Category, CategoryTranslation)
