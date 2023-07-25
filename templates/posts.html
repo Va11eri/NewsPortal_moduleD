@@ -1,5 +1,5 @@
 {% extends 'flatpages/default.html' %}
-
+{% load i18n %}
 {% load custom_filters %}
 {% load cache %}
 
@@ -8,12 +8,12 @@
 {% endblock %}
 
 {% block content %}
-   <h1>All news we have today:</h1>
+   <h1>{% trans "All news we have today:" %}</h1>
    {{ posts|length }}
 
    <h3>{{ time_in|date:'M d Y' }}</h3>
    <hr>
-   {% cache 60 posts_all %}
+    {% cache 60 posts_all %}
        {% if posts %}
            <table>
                <tr>
@@ -39,7 +39,7 @@
                {% endfor %}
            </table>
        {% else %}
-           <h2>We don't have any news, sorry!</h2>
+           <h2>{% trans "We don't have any news, sorry!" %}</h2>
        {% endif %}
    {% endcache %}
 

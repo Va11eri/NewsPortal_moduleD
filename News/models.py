@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.core.cache import cache
 from django.utils.translation import gettext as _
-from django.utils.translation import pgettext_lazy
+from django.utils.translation import gettext_lazy as _
 
 
 class Author(models.Model):
@@ -33,12 +33,12 @@ economics = 'EC'
 fashion = 'FS'
 
 TOPIC = [
-    (sport, 'Sport news'),
-    (weather, 'Weather news'),
-    (politics, 'Politics news'),
-    (education, 'Education news'),
-    (economics, 'Economics news'),
-    (fashion, 'Fashion news')
+    (sport, _('Sport news')),
+    (weather, _('Weather news')),
+    (politics, _('Politics news')),
+    (education, _('Education news')),
+    (economics, _('Economics news')),
+    (fashion, _('Fashion news'))
 ]
 
 
@@ -131,5 +131,5 @@ class MyModel(models.Model):
         Category,
         on_delete=models.CASCADE,
         related_name='kinds',
-        verbose_name=pgettext_lazy('help text for MyModel model', 'This is the help text'),
+        verbose_name=_('This is the help text for MyModel model'),
 )

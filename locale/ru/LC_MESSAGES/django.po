@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-08 16:40+0300\n"
+"POT-Creation-Date: 2023-07-25 15:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,17 +19,74 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: .\News\views.py:18
-msgid "Hello world"
-msgstr "Привет, мир"
+#: .\News\models.py:36
+msgid "Sport news"
+msgstr ""
 
-msgid "Title"
-msgstr "Заголовок"
+#: .\News\models.py:37
+msgid "Weather news"
+msgstr "Новости погоды"
 
-msgid "Category"
-msgstr "Категория"
+#: .\News\models.py:38
+msgid "Politics news"
+msgstr "Политические новости"
 
-msgid "News"
-msgstr "Новости"
+#: .\News\models.py:39
+msgid "Education news"
+msgstr "Новости образования"
 
+#: .\News\models.py:40
+msgid "Economics news"
+msgstr "Новости экономики"
 
+#: .\News\models.py:41
+msgid "Fashion news"
+msgstr "Модные новости"
+
+#: .\News\models.py:46
+msgid "category name"
+msgstr "Имя категории"
+
+#: .\News\models.py:67
+msgid "Author name"
+msgstr "Имя автора"
+
+#: .\News\models.py:134
+msgid "This is the help text for MyModel model"
+msgstr "Это текст-помощник"
+
+#: .\templates\flatpages\default.html:26
+msgid "Lang"
+msgstr "Язык"
+
+#: .\templates\flatpages\default.html:28
+msgid "English"
+msgstr "Английский"
+
+#: .\templates\posts.html:11
+msgid "All news we have today:"
+msgstr "Все новости на сегодня:"
+
+#: .\templates\posts.html:42
+msgid "We don't have any news, sorry!"
+msgstr "У нас нет новостей, простите!"
+
+#: .\templates\protect\index.html:12
+msgid "I would like to be an author!"
+msgstr "Я бы хотел быть автором"
+
+#: .\templates\protect\index.html:14
+msgid "You are already an author"
+msgstr "Вы уже автор"
+
+#: .\templates\protect\index.html:16
+msgid "Authorized user page"
+msgstr "Страница авторизованного пользователя"
+
+#: .\templates\protect\index.html:17
+msgid "There may be personal information for each user"
+msgstr "Тут может быть персональная информация каждого пользователя"
+
+#: .\templates\protect\index.html:19
+msgid "Log out"
+msgstr "Выйти"
