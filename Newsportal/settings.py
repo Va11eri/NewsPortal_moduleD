@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'django_apscheduler',
+    'rest_framework',
 ]
 
 SITE_ID = 1

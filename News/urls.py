@@ -2,10 +2,12 @@ from django.urls import path
 from .views import Postlist, PostDetail, SearchPostList, PostCreate, PostUpdate, PostDelete, BaseRegisterView, CategoryListView, subscribe, unsubscribe
 from django.contrib.auth.views import LoginView, LogoutView
 from .views import IndexView
-from .views import upgrade_me
+from .views import upgrade_me, NewsListAPIView, ArticleListAPIView
 
 
 urlpatterns = [
+   path('api/news/', NewsListAPIView.as_view(), name='news-list'),
+   path('api/articles/', ArticleListAPIView.as_view(), name='article-list'),
    path('', Postlist.as_view(), name='post_list'),
    path('<int:pk>', PostDetail.as_view(), name='post_detail'),
    path('search/', SearchPostList.as_view()),

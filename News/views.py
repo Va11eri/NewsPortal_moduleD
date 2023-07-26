@@ -1,19 +1,34 @@
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from .models import Post, PostCategory, Category, MyModel
+from .models import Post, PostCategory, Category, MyModel, PostSerializer
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User, Group
 from .models import BaseRegisterForm
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.utils.translation import gettext as _
 from django.shortcuts import redirect
 from django.utils import timezone
 import pytz
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+class NewsListAPIView(APIView):
+    def get(self, request):
+        news = Post.objects.filter(type='NW')  # Фильтруем только новости (тип 'NW')
+        serializer = PostSerializer(news, many=True)
+        return Response(serializer.data)
+
+class ArticleListAPIView(APIView):
+    def get(self, request):
+        articles = Post.objects.filter(type='AR')  # Фильтруем только статьи (тип 'AR')
+        serializer = PostSerializer(articles, many=True)
+        return Response(serializer.data)
 
 
 class Index(View):

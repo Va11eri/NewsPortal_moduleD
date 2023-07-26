@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.core.cache import cache
-from django.utils.translation import gettext as _
+from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
 
@@ -133,3 +133,19 @@ class MyModel(models.Model):
         related_name='kinds',
         verbose_name=_('This is the help text for MyModel model'),
 )
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = '__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'
